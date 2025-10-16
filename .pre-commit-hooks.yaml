@@ -1,0 +1,35 @@
+- id: spotless-java
+  name: Spotless (ratchet HEAD, multi-module)
+  description: Runs Spotless apply with ratchetFrom=HEAD and scopes to affected Maven modules.
+  entry: hooks/run-spotless.sh
+  language: script
+  pass_filenames: true
+  stages: [commit]
+
+- id: checkstyle-java
+  name: Checkstyle (staged Java only, multi-module)
+  description: Runs maven-checkstyle-plugin on staged .java files; scopes to affected Maven modules.
+  entry: hooks/run-checkstyle.sh
+  language: script
+  pass_filenames: true
+  files: \.java$
+  stages: [commit]
+  args:
+    -  --extra-src=src/acceptance
+
+- id: adr-scanner
+  name: Markdown ADR index generator
+  description: Scans Markdown files for first H1 and injects a (grouped) list of links between markers.
+  entry: hooks/adr_scanner.py
+  language: python
+  pass_filenames: false
+  stages: [pre-commit]
+  args:
+    - "--src-dir=docs/adr"
+    - "--target-file=README.md"
+    - "--marker-start=<!--adrlist-->"
+    - "--marker-end=<!--adrliststop-->"
+    - "--group-by=subdir"
+    - "--group-depth=1"
+    - "--group-heading-level=2"
+    - "--group-title-case=title"
