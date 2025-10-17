@@ -145,8 +145,8 @@ def replace_between_markers(content: str, start: str, end: str, replacement: str
     new = before + start + "\n" + replacement + end + after
     return new, new != content
 
-def main(argv: List[str]) -> int:
-    args = parse_args(argv)
+def main(argv: List[str] | None = None) -> int:
+    args = parse_args(sys.argv[1:] if argv is None else argv)
     repo_root = Path.cwd()
     src_dir = (repo_root / args.src_dir).resolve()
     target_file = (repo_root / args.target_file).resolve()

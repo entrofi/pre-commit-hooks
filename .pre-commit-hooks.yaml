@@ -20,7 +20,7 @@
 - id: adr-scanner
   name: Markdown ADR index generator
   description: Scans Markdown files for first H1 and injects a (grouped) list of links between markers.
-  entry: hooks/adr_scanner.py
+  entry: adr-scanner
   language: python
   pass_filenames: false
   stages: [pre-commit]
